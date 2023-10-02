@@ -1,5 +1,6 @@
 body {
     background-image: url(/SIMON-bg.jpg);
+    background-repeat: no-repeat;
 }
 
 #outline {
@@ -151,3 +152,35 @@ body {
 
 }
 
+
+#gameOver {
+    position: absolute;
+    top:36%;
+    left: 10%;
+    width: 200px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    background-color: #c6c5b0;
+    color: #000;
+    text-align: center;
+    border-radius: 20px;
+    padding: 30px 30px 30px;
+    
+    img {
+      width: 25px;
+      margin-bottom: 15px;
+    }
+    }
+    button.accept {
+      background-color: #c24231;
+      border: none;
+      border-radius: 5px;
+      width: 200px;
+      padding: 14px;
+      font-size: 16px;
+      color: white;
+      box-shadow: 0px 6px 18px -5px rgba(237, 103, 85, 1);
+    }
+  }
+  

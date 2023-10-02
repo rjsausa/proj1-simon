@@ -6,7 +6,7 @@ let compTurn; // to track whether it is player's turn or computer's turn
 let round; // represents the current round
 let flash; // number of flashes 
 
-let good; // boolen to determine whether player has entered the correct colors
+let correct; // boolen to determine whether player has entered the correct colors
 let interval;
 let on = false; // to prevent player from clicking on buttons during computer's turn
 let win;
@@ -18,12 +18,11 @@ const q2 = document.querySelector("#Q2");
 const q3 = document.querySelector("#Q3");
 const q4 = document.querySelector("#Q4");
 const turnCounter = document.querySelector("#turn");
-
+const gameOver = document.querySelector("#gameOver");
+const playAgainBtn = document.querySelector("#accept");
 
 // Function: Start Game (push power button)
 startButton.addEventListener('click', (e) => {
-    // on = true;
-    // turnCounter.innerHTML = "-";
     playGame();
 });
 
@@ -36,21 +35,20 @@ function playGame() {
     interval = 0;
     round = 1;
     turnCounter.innerHTML = 1;
-    good = true;
+    correct = true;
  
     // Create a random sequence of numbers which represents the order that the lights will flash in. This will be the sequence which will be used for the entire game.
-    for (let i=0; i < 25; i++) {
+    for (let i=0; i < 10; i++) {
         sequence.push(Math.floor(Math.random()*4)+1);
     };
     // console.log(sequence);
 
     compTurn = true;
-    interval = setInterval(gameTurn, 800); // run the 
+    interval = setInterval(flashSequence, 800); // run the flash sequence every 800ms
 }
 
-// Function: Begin Sequence / Computer's Turn
-// Create an array to capture random sequence given by computer
-function gameTurn() {
+// This function will flash the color in the randomly generated sequence
+function flashSequence() {
     on = false;
 
     if (flash == round) {
@@ -73,25 +71,33 @@ function gameTurn() {
                  green();
             
             flash++;
-        }, 200);
+        }, 200); // timeout allows a short gap between flashes (for when the same color comes up consecutively in the sequence)
     }
 }
 
 
 // Functions to flash color and make sound
 function red() {
+    let audio = document.getElementById("one");
+    audio.play();
     q1.style.backgroundColor = "darkred";
 }
 
 function yellow() {
+    let audio = document.getElementById("two");
+    audio.play();
     q2.style.backgroundColor = "goldenrod";
 }
 
 function blue() {
+    let audio = document.getElementById("three");
+    audio.play();
     q3.style.backgroundColor = "darkblue";
 }
 
 function green() {
+    let audio = document.getElementById("four");
+    audio.play();
     q4.style.backgroundColor = "darkgreen";
 }
 
@@ -164,42 +170,50 @@ q4.addEventListener('click', (e) => {
     }
 })
 
+playAgainBtn.addEventListener('click', (e) => {
+    gameOver.style.display = "none";
+    location.reload();
+})
 
 // Check player's array against computer's array
 function checkSeq() {
     if (playerSeq[playerSeq.length -1] !== sequence[playerSeq.length - 1]) 
-        good = false;
+        correct = false;
 
-    if (playerSeq.length == 5 && good) {
+    if (playerSeq.length == 10 && correct) {
         winGame();
     }
 
-    if (good == false) {
-        flashColor();
-        turnCounter.innerHTML = "XXX";
-        setTimeout(() => {
-            turnCounter.innerHTML = round;
-            clearColor();
-        });
+    if (correct == false) {
+        loseGame();
     }
 
-    if (round == playerSeq.length && good && !win) {
-        round++;
-        playerSeq = [];
-        compTurn = true;
-        flash = 0;
-        turnCounter.innerHTML = round;
-        interval = setInterval(gameTurn, 800);
-    }
+    if (round == playerSeq.length && correct && !win) {
+    round++;
+    playerSeq = [];
+    compTurn = true;
+    flash = 0;
+    turnCounter.innerHTML = round;
+    interval = setInterval(flashSequence, 800);
+}
 }
 
-// Player wins when they reach round number 25
+function loseGame() {
+    flashColor();
+    turnCounter.innerHTML = "XXX";
+    let audio = document.getElementById("lose");
+    audio.play();
+    gameOver.style.display = "block";
+    
+
+}
+
+// Player wins when they reach round number 10
 function winGame() {
     flashColor();
     turnCounter.innerHTML = "YOU WIN!";
+    let audio = document.getElementById("win");
+    audio.play();
     on = false;
     win = true;
 }
-
-
-

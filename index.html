@@ -6,6 +6,31 @@
     <title>SIMON - 2023</title>
     <link rel="stylesheet" href="/style.css">
     <script defer src="/app.js"></script>
+
+    <audio id="one">
+        <source src="/audio/one.mp3"></source>
+    </audio>
+
+    <audio id="two">
+        <source src="/audio/two.mp3"></source>
+    </audio>
+
+    <audio id="three">
+        <source src="/audio/three.mp3"></source>
+    </audio>
+
+    <audio id="four">
+        <source src="/audio/four.mp3"></source>
+    </audio>
+
+    <audio id="win">
+        <source src="/audio/win.mp3"></source>
+    </audio>
+
+    <audio id="lose">
+        <source src="/audio/lose.wav"></source>
+    </audio>
+
 </head>
 <body>
 
@@ -26,5 +51,13 @@
         </div>
     </div>
     
+
+    <div class="container">
+        <div id="gameOver">
+          <p>GAME OVER! Give it another go?</p>
+          <button id="accept">Play Again</button>
+        </div>
+      </div>
+
 </body>
 </html>
